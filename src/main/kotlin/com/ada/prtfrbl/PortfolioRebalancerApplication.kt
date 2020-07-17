@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class PortfolioRebalancerApplication
 
 fun main(args: Array<String>) {
-	runApplication<PortfolioRebalancerApplication>(*args)
+    runApplication<PortfolioRebalancerApplication>(*args)
 }
