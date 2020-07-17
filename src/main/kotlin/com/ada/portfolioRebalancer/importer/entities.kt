@@ -1,4 +1,4 @@
-package com.ada.prtfrbl.importer
+package com.ada.portfolioRebalancer.importer
 
 data class Strategy(
     val id: String? = "0",

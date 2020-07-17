@@ -1,4 +1,4 @@
-package com.ada.prtfrbl.importer
+package com.ada.portfolioRebalancer.importer
 
 import com.github.doyaaaaaken.kotlincsv.client.CsvReader
 import java.io.File

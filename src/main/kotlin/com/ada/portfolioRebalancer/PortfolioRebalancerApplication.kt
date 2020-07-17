@@ -1,4 +1,4 @@
-package com.ada.prtfrbl
+package com.ada.portfolioRebalancer
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
