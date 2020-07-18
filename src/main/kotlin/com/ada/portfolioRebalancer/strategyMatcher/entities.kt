@@ -18,6 +18,8 @@ data class Strategy(
 
 )
 
+var defaultStrategy = Strategy()
+
 data class Customer(
     val id: Int = 0,
     val email: String = "",
@@ -25,7 +27,7 @@ data class Customer(
     val riskLevel: Int = 0,
     val retirementAge: Int = 0,
     val yearsToRetirement: Int = 0,
-    val strategy: Strategy?
+    val strategy: Strategy = defaultStrategy
 ) {}
 
 fun fromImportedStrategy(importedStrategy: ImportedStrategy): Strategy? {
@@ -85,7 +87,6 @@ fun fromImportedCustomer(
         parsedDateOfBirth,
         importedCustomer.riskLevel!!.toInt(),
         retirementAge,
-        yearsToRetirement,
-        null
+        yearsToRetirement
     )
 }

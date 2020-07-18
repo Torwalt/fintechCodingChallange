@@ -2,9 +2,6 @@ package com.ada.portfolioRebalancer.strategyMatcher
 
 import com.ada.portfolioRebalancer.csvImporter.ImportedCustomer
 import com.ada.portfolioRebalancer.csvImporter.ImportedStrategy
-import io.mockk.every
-import io.mockk.mockkObject
-import io.mockk.mockkStatic
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance

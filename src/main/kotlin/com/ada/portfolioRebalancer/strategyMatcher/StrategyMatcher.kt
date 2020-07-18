@@ -7,7 +7,6 @@ class StrategyMatcher(
     private val importedCustomers: List<ImportedCustomer> = listOf(),
     private val importedStrategies: List<ImportedStrategy> = listOf()
 ) {
-    private val defaultStrategy = Strategy()
     private val customers = mutableListOf<Customer>()
     private val strategies = mutableListOf<Strategy>()
 
@@ -30,7 +29,7 @@ class StrategyMatcher(
         val matchedCustomers = mutableListOf<Customer>()
 
         customers.forEach() { customer: Customer ->
-            var matchedCustomer = Customer(strategy = defaultStrategy)
+            var matchedCustomer = Customer()
 
             strategies.forEach() { strategy: Strategy ->
                 if (customer.riskLevel in strategy.minRiskLevel..strategy.maxRiskLevel
