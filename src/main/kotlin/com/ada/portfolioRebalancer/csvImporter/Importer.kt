@@ -1,4 +1,4 @@
-package com.ada.portfolioRebalancer.importer
+package com.ada.portfolioRebalancer.csvImporter
 
 import com.github.doyaaaaaken.kotlincsv.client.CsvReader
 import java.io.File
@@ -6,8 +6,8 @@ import java.nio.file.Paths
 import kotlin.reflect.full.memberProperties
 
 class Importer(val path: String = "/", val csvReader: CsvReader = CsvReader()) {
-    var strategies: MutableList<Strategy> = mutableListOf()
-    var customers: MutableList<Customer> = mutableListOf()
+    var importedStrategies: MutableList<ImportedStrategy> = mutableListOf()
+    var importedCustomers: MutableList<ImportedCustomer> = mutableListOf()
 
     private val files = listOf("strategies.csv", "customers.csv")
 
@@ -26,7 +26,7 @@ class Importer(val path: String = "/", val csvReader: CsvReader = CsvReader()) {
 
     private fun createStrategy(rows: List<Map<String, String>>): Unit {
         rows.forEach() { row: Map<String, String> ->
-            val strategy = Strategy(
+            val strategy = ImportedStrategy(
                 row["strategyId"],
                 row["minRiskLevel"],
                 row["maxRiskLevel"],
@@ -36,26 +36,26 @@ class Importer(val path: String = "/", val csvReader: CsvReader = CsvReader()) {
                 row["cashPercentage"],
                 row["bondsPercentage"]
             )
-            this.strategies.add(strategy)
+            this.importedStrategies.add(strategy)
         }
     }
 
     private fun createCustomer(rows: List<Map<String, String>>): Unit {
         rows.forEach() { row: Map<String, String> ->
-            val customer = Customer(
+            val customer = ImportedCustomer(
                 row["customerId"],
                 row["email"],
                 row["dateOfBirth"],
                 row["riskLevel"],
                 row["retirementAge"]
             )
-            this.customers.add(customer)
+            this.importedCustomers.add(customer)
         }
     }
 
     private fun validate_header(header: Array<String>, className: String): Unit {
         if (className == "strategies.cvs") {
-            Strategy::class.memberProperties
+            ImportedStrategy::class.memberProperties
         }
     }
 }

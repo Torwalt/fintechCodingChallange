@@ -1,4 +1,4 @@
-package com.ada.portfolioRebalancer.importer
+package com.ada.portfolioRebalancer.csvImporter
 
 import com.github.doyaaaaaken.kotlincsv.client.CsvReader
 import io.mockk.every
@@ -63,9 +63,9 @@ internal class ImporterTest {
         )
         val importer = Importer(tmpDir, csvReader)
         importer.import()
-        Assertions.assertEquals(importer.strategies.count(), 2)
-        Assertions.assertEquals(importer.strategies[0].maxYearsToRetirement, "15")
-        Assertions.assertEquals(importer.strategies[0].id, "1")
+        Assertions.assertEquals(importer.importedStrategies.count(), 2)
+        Assertions.assertEquals(importer.importedStrategies[0].maxYearsToRetirement, "15")
+        Assertions.assertEquals(importer.importedStrategies[0].id, "1")
     }
 
     @Test
@@ -90,8 +90,8 @@ internal class ImporterTest {
         )
         val importer = Importer(tmpDir, csvReader)
         importer.import()
-        Assertions.assertEquals(importer.customers.count(), 2)
-        Assertions.assertEquals(importer.customers[0].id, "1")
-        Assertions.assertEquals(importer.customers[0].email, "test1@test.test")
+        Assertions.assertEquals(importer.importedCustomers.count(), 2)
+        Assertions.assertEquals(importer.importedCustomers[0].id, "1")
+        Assertions.assertEquals(importer.importedCustomers[0].email, "test1@test.test")
     }
 }
