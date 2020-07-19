@@ -61,7 +61,7 @@ internal class ImporterTest {
                 "bondsPercentage" to "30"
             )
         )
-        val importer = Importer(tmpDir, csvReader)
+        val importer = Importer(csvReader)
         importer.import()
         Assertions.assertEquals(importer.importedStrategies.count(), 2)
         Assertions.assertEquals(importer.importedStrategies[0].maxYearsToRetirement, "15")
@@ -88,7 +88,7 @@ internal class ImporterTest {
                 "retirementAge" to "67"
             )
         )
-        val importer = Importer(tmpDir, csvReader)
+        val importer = Importer(csvReader)
         importer.import()
         Assertions.assertEquals(importer.importedCustomers.count(), 2)
         Assertions.assertEquals(importer.importedCustomers[0].id, "1")

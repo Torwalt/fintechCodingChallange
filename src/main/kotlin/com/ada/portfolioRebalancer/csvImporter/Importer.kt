@@ -4,10 +4,9 @@ import com.github.doyaaaaaken.kotlincsv.client.CsvReader
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileNotFoundException
-import java.nio.file.Paths
 import kotlin.reflect.full.memberProperties
 
-class Importer(val path: String = "/", val csvReader: CsvReader = CsvReader()) {
+class Importer(val csvReader: CsvReader = CsvReader()) {
     var importedStrategies: MutableList<ImportedStrategy> = mutableListOf()
     var importedCustomers: MutableList<ImportedCustomer> = mutableListOf()
 
@@ -22,12 +21,12 @@ class Importer(val path: String = "/", val csvReader: CsvReader = CsvReader()) {
     }
 
     private fun getRows(fileName: String): List<Map<String, String>>? {
-        val filePath = Paths.get(path, fileName)
+        val filePath = this::class.java.classLoader.getResource(fileName).path
         return try {
             val file = File(filePath.toString())
             csvReader.readAllWithHeader(file)
         } catch (e: FileNotFoundException) {
-            logger.error("$fileName not found in $path!")
+            logger.error("$fileName not found!")
             null
         }
     }
