@@ -2,6 +2,7 @@ package com.ada.portfolioRebalancer.strategyMatcher
 
 import com.ada.portfolioRebalancer.csvImporter.ImportedCustomer
 import com.ada.portfolioRebalancer.csvImporter.ImportedStrategy
+import org.slf4j.LoggerFactory
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
 import java.util.Calendar
@@ -19,6 +20,7 @@ data class Strategy(
 )
 
 var defaultStrategy = Strategy()
+
 
 data class Customer(
     val id: Int = 0,

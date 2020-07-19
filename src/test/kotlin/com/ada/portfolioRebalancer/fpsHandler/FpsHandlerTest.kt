@@ -56,15 +56,15 @@ internal class FpsHandlerTest {
             restTemplate.postForEntity(
                 any<String>(),
                 any<String>(),
-                String.javaClass
+                CustomerPortfolio::class.java
             )
-        } returns ResponseEntity<String.Companion>(HttpStatus.CREATED)
+        } returns ResponseEntity<CustomerPortfolio>(trade, HttpStatus.CREATED)
         val fpsHandler = FpsHandler(
             url, postEndpoint, getEndpoint, customers, restTemplate
         )
         fpsHandler.customerTrades.add(trade)
         fpsHandler.rebalancePortfolios()
-        Assertions.assertEquals(fpsHandler.responses[0], ResponseEntity<String.Companion>(HttpStatus.CREATED))
+        Assertions.assertEquals(fpsHandler.responses[0], ResponseEntity(trade, HttpStatus.CREATED))
     }
 }
 

@@ -1,7 +1,9 @@
 package com.ada.portfolioRebalancer.csvImporter
 
 import com.github.doyaaaaaken.kotlincsv.client.CsvReader
+import org.slf4j.LoggerFactory
 import java.io.File
+import java.io.FileNotFoundException
 import java.nio.file.Paths
 import kotlin.reflect.full.memberProperties
 
@@ -10,18 +12,24 @@ class Importer(val path: String = "/", val csvReader: CsvReader = CsvReader()) {
     var importedCustomers: MutableList<ImportedCustomer> = mutableListOf()
 
     private val files = listOf("strategies.csv", "customers.csv")
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     fun import() {
         this.files.forEach { fileName: String ->
-            val rows = getRows(fileName)
+            val rows = getRows(fileName) ?: return
             if (fileName == "strategies.csv") createStrategy(rows) else createCustomer(rows)
         }
     }
 
-    private fun getRows(fileName: String): List<Map<String, String>> {
+    private fun getRows(fileName: String): List<Map<String, String>>? {
         val filePath = Paths.get(path, fileName)
-        val file = File(filePath.toString())
-        return csvReader.readAllWithHeader(file)
+        return try {
+            val file = File(filePath.toString())
+            csvReader.readAllWithHeader(file)
+        } catch (e: FileNotFoundException) {
+            logger.error("$fileName not found in $path!")
+            null
+        }
     }
 
     private fun createStrategy(rows: List<Map<String, String>>): Unit {
@@ -53,6 +61,7 @@ class Importer(val path: String = "/", val csvReader: CsvReader = CsvReader()) {
         }
     }
 
+    // Todo
     private fun validate_header(header: Array<String>, className: String): Unit {
         if (className == "strategies.cvs") {
             ImportedStrategy::class.memberProperties

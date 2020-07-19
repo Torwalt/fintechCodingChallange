@@ -2,6 +2,7 @@ package com.ada.portfolioRebalancer.strategyMatcher
 
 import com.ada.portfolioRebalancer.csvImporter.ImportedCustomer
 import com.ada.portfolioRebalancer.csvImporter.ImportedStrategy
+import org.slf4j.LoggerFactory
 
 class StrategyMatcher(
     private val importedCustomers: List<ImportedCustomer> = listOf(),
@@ -9,18 +10,23 @@ class StrategyMatcher(
 ) {
     private val customers = mutableListOf<Customer>()
     private val strategies = mutableListOf<Strategy>()
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     init {
         importedCustomers.forEach() { importedCustomer: ImportedCustomer ->
             val customer = fromImportedCustomer(importedCustomer)
             if (customer != null) {
                 customers.add(customer)
+            } else {
+                logger.warn("Corrupted $importedCustomer, could not map to Customer.")
             }
         }
         importedStrategies.forEach() { importedStrategy: ImportedStrategy ->
             val strategy = fromImportedStrategy(importedStrategy)
             if (strategy != null) {
                 strategies.add(strategy)
+            } else {
+                logger.warn("Corrupted $importedStrategy, could not map to Strategy.")
             }
         }
     }
