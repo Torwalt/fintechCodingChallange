@@ -16,7 +16,7 @@ import java.time.LocalDate
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class FpsHandlerTest {
-    private val url = "http://localhost:8000/"
+    private val url = "http://localhost:8080/"
     private val postEndpoint = "execute"
     private val getEndpoint = "customer"
     private var restTemplate = mockk<RestTemplate>()
@@ -56,15 +56,15 @@ internal class FpsHandlerTest {
             restTemplate.postForEntity(
                 any<String>(),
                 any<String>(),
-                CustomerPortfolio::class.java
+                String.javaClass
             )
-        } returns ResponseEntity<CustomerPortfolio>(trade, HttpStatus.CREATED)
+        } returns ResponseEntity<String.Companion>(HttpStatus.CREATED)
         val fpsHandler = FpsHandler(
             url, postEndpoint, getEndpoint, customers, restTemplate
         )
         fpsHandler.customerTrades.add(trade)
         fpsHandler.rebalancePortfolios()
-        Assertions.assertEquals(fpsHandler.responses[0], ResponseEntity(trade, HttpStatus.CREATED))
+        Assertions.assertEquals(fpsHandler.responses[0], ResponseEntity<String.Companion>(HttpStatus.CREATED))
     }
 }
 

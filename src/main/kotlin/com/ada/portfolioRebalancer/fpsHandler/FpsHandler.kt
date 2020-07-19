@@ -21,12 +21,13 @@ class FpsHandler(
     private val jsonConverter = Gson()
     private val logger = LoggerFactory.getLogger(javaClass)
     val customerTrades = mutableListOf<CustomerPortfolio>()
-    val responses = mutableListOf<ResponseEntity<CustomerPortfolio>>()
+    val responses = mutableListOf<ResponseEntity<String.Companion>>()
 
     // auth is out of scope
     private fun getCustomerPortfolio(id: Int): CustomerPortfolio? {
-        var getUrl = "$url$getEndpoint:$id"
-        val customerPortfolio: CustomerPortfolio? = restTemplate.getForObject(getUrl, CustomerPortfolio::class.java)
+        var getUrl = "$url$getEndpoint?id=$id"
+        val customerPortfolio: CustomerPortfolio? =
+            restTemplate.getForObject(getUrl, CustomerPortfolio::class.java)
         if (customerPortfolio == null) {
             logger.warn("Could not GET customer with id: $id")
         }
@@ -61,16 +62,16 @@ class FpsHandler(
         batchedTrades.forEach() { customerTrades: List<CustomerPortfolio> ->
             var postBody = jsonConverter.toJson(customerTrades)
             var request = HttpEntity(postBody.toString(), headers)
-            var responseEntity = restTemplate.postForEntity(postUrl, request, CustomerPortfolio::class.java)
+            var responseEntity = restTemplate.postForEntity(postUrl, request, String.javaClass)
             responses.add(responseEntity)
         }
         logPostResponse()
     }
 
     private fun logPostResponse() {
-        responses.forEach() { responseEntity: ResponseEntity<CustomerPortfolio> ->
+        responses.forEach() { responseEntity: ResponseEntity<String.Companion> ->
             if (responseEntity.statusCode == HttpStatus.CREATED) {
-                logger.info("Trade for customer ${responseEntity.body!!.customerId} executed successfully.")
+                logger.info("Trade executed successfully.")
             } else {
                 logger.warn("Could execute trade.")
             }
