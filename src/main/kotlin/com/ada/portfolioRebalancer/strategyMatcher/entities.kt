@@ -12,9 +12,9 @@ data class Strategy(
     val maxRiskLevel: Int = 0,
     val minYearsToRetirement: Int = 0,
     val maxYearsToRetirement: Int = 0,
-    val stocksPercentage: Int = 0,
-    val cashPercentage: Int = 100,
-    val bondsPercentage: Int = 0
+    val stocksPercentage: Double = 0.0,
+    val cashPercentage: Double = 1.0,
+    val bondsPercentage: Double = 0.0
 
 )
 
@@ -44,15 +44,20 @@ fun fromImportedStrategy(importedStrategy: ImportedStrategy): Strategy? {
     if (anyFieldNull) {
         return null
     }
+    val stocks = importedStrategy.stocksPercentage!!.toDouble()
+    val cash = importedStrategy.cashPercentage!!.toDouble()
+    val bonds = importedStrategy.bondsPercentage!!.toDouble()
+    val total = stocks + cash + bonds
+
     return Strategy(
         importedStrategy.id!!.toInt(),
         importedStrategy.minRiskLevel!!.toInt(),
         importedStrategy.maxRiskLevel!!.toInt(),
         importedStrategy.minYearsToRetirement!!.toInt(),
         importedStrategy.maxYearsToRetirement!!.toInt(),
-        importedStrategy.stocksPercentage!!.toInt(),
-        importedStrategy.cashPercentage!!.toInt(),
-        importedStrategy.bondsPercentage!!.toInt()
+        stocks / total,
+        cash / total,
+        bonds / total
     )
 }
 
